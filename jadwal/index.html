@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JADWAL MAPEL</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+</head>
+<h1>JADWAL MAPEL SMK PLUS INSAN CEMERLANG</h1>
+
+<table class="table" id="jadwalmapel">
+  <thead>
+    <tr>
+      <th scope="col">no</th>
+      <th scope="col">hari</th>
+      <th scope="col">waktu</th>
+      <th scope="col">kelas</th>
+      <th scope="col">mapel</th>
+      <th scope="col">nama guru</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<div class="d-flex justify-content-center">
+  <button onclick="location.href='form-jadwal.html'" style="background-color: blue; color: white; border-radius: 10px;">Tambah</button>
+</div>
+
+<img src="loader.gif" style="width: 10em; display: block" id="loader">
+
+
+<script type="module">
+  import { ambilDaftarMapel, hapusMapel } from './main.js';
+
+  $(document).ready(async function() {
+    let elemenDaftar = $("#jadwalmapel > tbody");
+    let daftarMapel = await ambilDaftarMapel();
+    let nomor = 1;
+
+    daftarMapel.forEach((data) => {
+      elemenDaftar.append(
+        '<tr>' +
+        '<th>' + nomor + '</th>' +
+        '<td>' + data.hari + '</td>' +
+        '<td>' + data.waktu + '</td>' +
+        '<th>' + data.kelas + '</th>' +
+        '<td>' + data.mapel + '</td>' +
+        '<td>' + data.gurumapel + '</td>' + '<td class="stack-up">' +
+        ' <a href="#" class="me-2 link-ubah"  data="' +
+        data.id +
+        '">ubah</a> ' +
+        ' <button class="btn btn-danger tombol-hapus" data="' +
+        data.id +
+        '">Hapus</button>' + '</td>' +
+        '</tr>'
+      );
+      nomor = nomor + 1;
+    });
+
+    $('#loader').hide();
+
+    $('.tombol-hapus').click(async function() {
+      $(this).attr('disabled', 'disabled');
+      $('#' + $(this).attr('data')).show();
+      await hapusMapel($(this).attr('data'));
+      location.reload();
+    })
+    $('.link-ubah').click(async function() {
+      window.location.replace('ubah-mapel.html?docId=' + $(this).attr('data'));
+    })
+
+  });
+</script>
+
+<footer class="py-3 bg-dark-sebtle mt-auto">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    </ul>
+  
+  <footer  </span> 
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="index.html" class="nav-link px-2 text-body-secondary">Beranda</a></li>
+      <li class="nav-item"><a href="from-absensi.html" id="link-login-" class="nav-link px-2 text-body-secondary">tambah data</a></li>
+        <p class="text-center text-body-secondary">&copy; 2024 smk plus insan cemerlang</p>
+    </ul>
+    <p class="text-center text-body-secondary">&copy; </p>
+  </footer>
+</body>
+</body>
+
+</html>

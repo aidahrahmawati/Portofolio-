@@ -89,3 +89,4 @@ export async function ambilAbsensi(docId) {
 
   return await docSnap.data();
 }
+
